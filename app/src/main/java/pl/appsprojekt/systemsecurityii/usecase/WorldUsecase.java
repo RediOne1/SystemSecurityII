@@ -1,29 +1,28 @@
 package pl.appsprojekt.systemsecurityii.usecase;
 
-import javax.inject.Inject;
-
-import pl.appsprojekt.systemsecurityii.MyApplication;
-import pl.appsprojekt.systemsecurityii.model.World;
-import pl.appsprojekt.systemsecurityii.parser.WorldParser;
+import pl.appsprojekt.systemsecurityii.model.Response;
 import rx.Observable;
 
 /**
- * Created by redione1 on 02.11.2016.
+ * author:  redione1
+ * date:    05.11.2016
  */
 
-public class WorldUsecase implements Usecase<World> {
+public interface WorldUsecase<T> {
 
-	@Inject
-	WorldParser worldParser;
+	public Observable<T> generateWorld();
 
-	public WorldUsecase() {
-		MyApplication.getApplicationInjector().inject(this);
-	}
+	public Observable<T> setWorld(String json);
 
-	@Override
-	public Observable<World> execute() {
-		return Observable.just(worldParser.get());
-	}
+	public Observable<T> getX();
 
+	public Observable<T> setX(Response responseWithX);
 
+	public Observable<T> getC();
+
+	public Observable<T> setC(Response responseWithC);
+
+	public Observable<T> getS();
+
+	public Observable<T> getVerification(Response responseWithS);
 }

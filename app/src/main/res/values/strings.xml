@@ -1,3 +1,18 @@
 <resources>
 	<string name="app_name">System Security II</string>
+	<string name="prover">Prover</string>
+	<string name="verifier">Verifier</string>
+	<string name="generate_world">Generate world</string>
+	<string name="read_json_send_c">Read JSON &amp; send C</string>
+	<string name="send_x">Send X</string>
+
+	<!-- TODO: Remove or change this placeholder text -->
+	<string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="json">JSON</string>
+	<string name="insert_c">Insert C</string>
+	<string name="set_world">Set world</string>
+	<string name="set_x">Set X</string>
+	<string name="verify">Verify</string>
+	<string name="send_s">Send S</string>
+	<string name="send_c">Send C</string>
 </resources>

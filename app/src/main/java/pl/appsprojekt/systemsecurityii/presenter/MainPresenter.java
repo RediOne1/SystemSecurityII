@@ -32,7 +32,7 @@ public class MainPresenter implements Presenter<IMainView> {
 	public static final int STAGE_RECEIVE_C = 7;
 	public static final int STAGE_SEND_S = 8;
 	public static final int STAGE_VERIFY = 9;
-	private	Gson gson = new Gson();
+	private Gson gson = new Gson();
 	private int selectedMode;
 	private
 	@Stage
@@ -217,7 +217,6 @@ public class MainPresenter implements Presenter<IMainView> {
 	}
 
 
-
 	public void sendS() {
 		worldUsecase.getS()
 				.map(gson::toJson)
@@ -232,7 +231,7 @@ public class MainPresenter implements Presenter<IMainView> {
 				);
 	}
 
-	public void verify(String jsonS){
+	public void verify(String jsonS) {
 		Response responseWithS = gson.fromJson(jsonS, Response.class);
 		worldUsecase.getVerification(responseWithS)
 				.map(gson::toJson)

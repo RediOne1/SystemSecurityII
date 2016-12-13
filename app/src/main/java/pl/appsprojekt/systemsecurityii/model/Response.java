@@ -2,8 +2,6 @@ package pl.appsprojekt.systemsecurityii.model;
 
 import android.support.annotation.StringDef;
 
-import com.google.gson.annotations.Expose;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.math.BigInteger;

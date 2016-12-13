@@ -1,8 +1,5 @@
 package pl.appsprojekt.systemsecurityii.usecase;
 
-import javax.inject.Inject;
-
-import pl.appsprojekt.systemsecurityii.MyApplication;
 import pl.appsprojekt.systemsecurityii.model.Response;
 import pl.appsprojekt.systemsecurityii.parser.World;
 import rx.Observable;
@@ -14,11 +11,10 @@ import rx.Observable;
 
 public class MyWorldUsecase implements WorldUsecase<Response> {
 
-	@Inject
 	World world;
 
 	public MyWorldUsecase() {
-		MyApplication.getApplicationInjector().inject(this);
+		world = new World();
 	}
 
 	@Override

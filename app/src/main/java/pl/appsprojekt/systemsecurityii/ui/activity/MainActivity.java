@@ -7,20 +7,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pl.appsprojekt.systemsecurityii.MyApplication;
 import pl.appsprojekt.systemsecurityii.R;
 import pl.appsprojekt.systemsecurityii.presenter.MainPresenter;
 import pl.appsprojekt.systemsecurityii.ui.dialog.JsonDialog;
+import pl.appsprojekt.systemsecurityii.usecase.MyWorldUsecase;
 import pl.appsprojekt.systemsecurityii.view.IMainView;
 
 public class MainActivity extends AppCompatActivity implements IMainView {
 
-	@Inject
 	public MainPresenter presenter;
 	@BindView(R.id.prover_btn)
 	Button proverBtn;
@@ -47,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		MyApplication.getPresenterInjector().inject(this);
+		presenter = new MainPresenter(new MyWorldUsecase());
 		ButterKnife.bind(this);
 
 		presenter.attachView(this);

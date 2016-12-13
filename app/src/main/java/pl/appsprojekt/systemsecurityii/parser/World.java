@@ -1,7 +1,5 @@
 package pl.appsprojekt.systemsecurityii.parser;
 
-import android.content.res.Resources;
-
 import com.google.gson.Gson;
 
 import org.spongycastle.asn1.x9.X962NamedCurves;
@@ -20,15 +18,14 @@ import pl.appsprojekt.systemsecurityii.model.Response;
 
 public class World {
 
-	private Resources res;
 	private BigInteger secretKey;
 	private ECPoint PK, G, X;
 	private BigInteger x, c;
 	private BigInteger Q, A, B, C;
 
 
-	public World(Resources res) {
-		this.res = res;
+	public World() {
+
 	}
 
 	public BigInteger generateRandomInTheWorld(BigInteger Q) {
@@ -145,7 +142,7 @@ public class World {
 		return response;
 	}
 
-	public Response setC(Response responseWithC){
+	public Response setC(Response responseWithC) {
 		Response response = new Response();
 		response.success = true;
 		C = responseWithC.getParam("C");

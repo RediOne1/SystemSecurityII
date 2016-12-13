@@ -67,7 +67,7 @@ public class JsonDialog extends DialogFragment {
 		builder.setView(view)
 				.setTitle(title)
 				.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-					if(listener != null)
+					if (listener != null)
 						listener.onJsonInserted(jsonInput.getText().toString());
 					dialogInterface.dismiss();
 				})

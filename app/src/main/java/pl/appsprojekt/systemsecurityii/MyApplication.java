@@ -7,7 +7,8 @@ import org.spongycastle.jce.provider.BouncyCastleProvider;
 import java.security.Security;
 
 /**
- * Created by redione1 on 02.11.2016.
+ * author:  redione1
+ * date:    02.11.2016
  */
 
 public class MyApplication extends Application {

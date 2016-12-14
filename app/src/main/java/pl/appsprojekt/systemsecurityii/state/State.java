@@ -14,7 +14,6 @@ public interface State {
 	void processInput(String input);
 
 	/**
-	 *
 	 * @return true if input was processed successfully and next state can be executed.
 	 */
 	boolean canGoToNextState();

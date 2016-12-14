@@ -8,54 +8,47 @@ import pl.appsprojekt.systemsecurityii.state.State;
 import pl.appsprojekt.systemsecurityii.view.INewMainView;
 import pl.appsprojekt.systemsecurityii.world.SchnorrWorldVerifier;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
- * author:  redione1
+ * author:  Adrian Kuta
  * date:    14.12.2016
  */
-
-public class VerifierRecreateWorldState implements State {
+public class VerifierGetVerificationState implements State {
 
 	private SchnorrWorldVerifier worldVerifier;
 	private INewMainView view;
 
-	public VerifierRecreateWorldState() {
-		worldVerifier = new SchnorrWorldVerifier();
+	public VerifierGetVerificationState(SchnorrWorldVerifier worldVerifier) {
+		this.worldVerifier = worldVerifier;
 	}
 
 	@Override
 	public void onPrepare(INewMainView view) {
 		this.view = view;
-		view.printOutputMessage(new Message("Input world params and press SEND"));
+		view.printOutputMessage(new Message("Input S and press SEND"));
 	}
 
 	@Override
 	public void processInput(String input) {
 		Gson gson = new Gson();
 		Observable.just(input)
-				.subscribeOn(Schedulers.computation())
-				.observeOn(AndroidSchedulers.mainThread())
 				.map(s -> gson.fromJson(s, Response.class))
-				.map(worldVerifier::createFromJson)
+				.map(worldVerifier::getVerification)
 				.map(gson::toJson)
 				.map(Message::new)
-				.subscribe(message -> {},
-						throwable -> {
-							view.printOutputMessage(new Message("Something went wrong"));
-							view.printOutputMessage(new Message(throwable.getMessage()));
-							view.printOutputMessage(new Message("Input world params and press SEND"));
-						});
+				.subscribe(view::printOutputMessage,
+						Throwable::printStackTrace,
+						() -> view.printOutputMessage(new Message("The End")));
+
 	}
 
 	@Override
 	public boolean canGoToNextState() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public State getNextState() {
-		return new VerifierSetXState(worldVerifier);
+		return null;
 	}
 }

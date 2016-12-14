@@ -48,17 +48,12 @@ public class Response {
 		this.sender = sender;
 	}
 
-	public BigInteger getParam(@Params String key) {
+	public BigInteger getParam(String key) {
 		String value = params.get(key);
 		return new BigInteger(value, 16);
 	}
 
-	public void setParam(@Params String key, BigInteger value) {
+	public void addParam(String key, BigInteger value) {
 		params.put(key, value.toString(16));
-	}
-
-	@StringDef({"Q", "A", "B", "S", "C", "Gx", "Gy", "N", "PKx", "PKy", "Xx", "Xy"})
-	@Retention(RetentionPolicy.SOURCE)
-	public @interface Params {
 	}
 }

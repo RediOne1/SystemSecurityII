@@ -73,14 +73,14 @@ public class World {
 		BigInteger PKx = PK.normalize().getXCoord().toBigInteger();
 		BigInteger PKy = PK.normalize().getAffineYCoord().toBigInteger();
 
-		response.setParam("Q", Q);
-		response.setParam("A", A);
-		response.setParam("B", B);
-		response.setParam("N", N);
-		response.setParam("Gx", gX);
-		response.setParam("Gy", gY);
-		response.setParam("PKx", PKx);
-		response.setParam("PKy", PKy);
+		response.addParam("Q", Q);
+		response.addParam("A", A);
+		response.addParam("B", B);
+		response.addParam("N", N);
+		response.addParam("Gx", gX);
+		response.addParam("Gy", gY);
+		response.addParam("PKx", PKx);
+		response.addParam("PKy", PKy);
 
 
 		return response;
@@ -117,8 +117,8 @@ public class World {
 		response.protocol = "Schnorr";
 		response.sender = "P";
 		response.stage = "X";
-		response.setParam("Xx", Xx);
-		response.setParam("Xy", Xy);
+		response.addParam("Xx", Xx);
+		response.addParam("Xy", Xy);
 		return response;
 	}
 
@@ -138,7 +138,7 @@ public class World {
 		response.protocol = "Schnorr";
 		response.sender = "V";
 		response.stage = "C";
-		response.setParam("C", c);
+		response.addParam("C", c);
 		return response;
 	}
 
@@ -155,7 +155,7 @@ public class World {
 		response.protocol = "Schnorr";
 		response.sender = "P";
 		response.stage = "S";
-		response.setParam("S", S);
+		response.addParam("S", S);
 		return response;
 	}
 

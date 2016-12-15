@@ -13,11 +13,13 @@
 	tools:context="pl.appsprojekt.systemsecurityii.ui.activity.MainActivity">
 
 	<LinearLayout
+		style="?android:attr/buttonBarStyle"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 
 		<Button
 			android:id="@+id/prover_btn"
+			style="?android:attr/buttonBarStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
@@ -25,6 +27,7 @@
 
 		<Button
 			android:id="@+id/verifier_btn"
+			style="?android:attr/buttonBarStyle"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
@@ -48,42 +51,18 @@
 		tools:visibility="visible"/>
 
 	<Button
-		android:id="@+id/set_x"
+		android:id="@+id/generate_sign"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/set_x"
+		android:text="@string/generate_sign"
 		android:visibility="gone"
 		tools:visibility="visible"/>
 
 	<Button
-		android:id="@+id/send_x"
+		android:id="@+id/set_sign"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/send_x"
-		android:visibility="gone"
-		tools:visibility="visible"/>
-
-	<Button
-		android:id="@+id/send_c"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/send_c"
-		android:visibility="gone"
-		tools:visibility="visible"/>
-
-	<Button
-		android:id="@+id/insert_c"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/insert_c"
-		android:visibility="gone"
-		tools:visibility="visible"/>
-
-	<Button
-		android:id="@+id/send_s"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/send_s"
+		android:text="@string/set_sign"
 		android:visibility="gone"
 		tools:visibility="visible"/>
 

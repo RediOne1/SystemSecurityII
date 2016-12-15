@@ -8,7 +8,7 @@ import pl.appsprojekt.systemsecurityii.presenter.MainPresenter;
 
 public interface IMainView extends IView {
 
-	void showStage(@MainPresenter.Stage int stage);
+	void showStage(int stage);
 
 	void showJson(String json);
 }

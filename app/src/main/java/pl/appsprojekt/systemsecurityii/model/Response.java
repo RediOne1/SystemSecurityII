@@ -1,9 +1,5 @@
 package pl.appsprojekt.systemsecurityii.model;
 
-import android.support.annotation.StringDef;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,17 +44,12 @@ public class Response {
 		this.sender = sender;
 	}
 
-	public BigInteger getParam(@Params String key) {
+	public BigInteger getParam(String key) {
 		String value = params.get(key);
 		return new BigInteger(value, 16);
 	}
 
-	public void setParam(@Params String key, BigInteger value) {
+	public void setParam(String key, BigInteger value) {
 		params.put(key, value.toString(16));
-	}
-
-	@StringDef({"Q", "A", "B", "S", "C", "Gx", "Gy", "N", "PKx", "PKy", "Xx", "Xy"})
-	@Retention(RetentionPolicy.SOURCE)
-	public @interface Params {
 	}
 }

@@ -13,7 +13,6 @@ import butterknife.OnClick;
 import pl.appsprojekt.systemsecurityii.R;
 import pl.appsprojekt.systemsecurityii.presenter.MainPresenter;
 import pl.appsprojekt.systemsecurityii.ui.dialog.JsonDialog;
-import pl.appsprojekt.systemsecurityii.usecase.MyWorldUsecase;
 import pl.appsprojekt.systemsecurityii.view.IMainView;
 
 public class MainActivity extends AppCompatActivity implements IMainView {
@@ -27,16 +26,10 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 	Button generateWorldBtn;
 	@BindView(R.id.set_world)
 	Button readJsonWorldBtn;
-	@BindView(R.id.send_x)
-	Button sendXBtn;
-	@BindView(R.id.set_x)
-	Button insertXBtn;
-	@BindView(R.id.insert_c)
-	Button insertCBtn;
-	@BindView(R.id.send_s)
-	Button sendSBtn;
-	@BindView(R.id.send_c)
-	Button sendCBtn;
+	@BindView(R.id.generate_sign)
+	Button generateSignBtn;
+	@BindView(R.id.set_sign)
+	Button setSignBtn;
 	@BindView(R.id.verify)
 	Button verifyBtn;
 
@@ -44,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		presenter = new MainPresenter(new MyWorldUsecase());
+		presenter = new MainPresenter();
 		ButterKnife.bind(this);
 
 		presenter.attachView(this);
@@ -79,44 +72,25 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 		dialog.show(getSupportFragmentManager(), "InsertWorldJSON");
 	}
 
-	@OnClick(R.id.send_x)
-	public void onSendXClick() {
-		presenter.sendX();
+	@OnClick(R.id.generate_sign)
+	public void onGenerateSignClick() {
+		presenter.generateSign();
 	}
 
-	@OnClick(R.id.set_x)
-	public void onSetX() {
-		JsonDialog dialog = JsonDialog.newInstance("Insert X JSON");
-		dialog.setJsonInsertedListener(presenter::insertX);
-		dialog.show(getSupportFragmentManager(), "InsertX");
-	}
-
-	@OnClick(R.id.send_c)
-	public void onSendCClick() {
-		presenter.sendC();
-	}
-
-	@OnClick(R.id.insert_c)
-	public void onInsertCClick() {
-		JsonDialog dialogFragment = JsonDialog.newInstance("Insert C JSON");
-		dialogFragment.setJsonInsertedListener(presenter::insertJsonC);
-		dialogFragment.show(getSupportFragmentManager(), "InsertC");
-	}
-
-	@OnClick(R.id.send_s)
-	public void onSendSClick() {
-		presenter.sendS();
+	@OnClick(R.id.set_sign)
+	public void onSetSign() {
+		JsonDialog dialog = JsonDialog.newInstance("Insert Signature JSON");
+		dialog.setJsonInsertedListener(presenter::setSign);
+		dialog.show(getSupportFragmentManager(), "Insert sign");
 	}
 
 	@OnClick(R.id.verify)
 	public void onVerifyClick() {
-		JsonDialog dialog = JsonDialog.newInstance("Insert S");
-		dialog.setJsonInsertedListener(presenter::verify);
-		dialog.show(getSupportFragmentManager(), "InsertS");
+		presenter.verify();
 	}
 
 	@Override
-	public void showStage(@MainPresenter.Stage int stage) {
+	public void showStage(int stage) {
 		switch (stage) {
 			case MainPresenter.STAGE_NONE:
 			case MainPresenter.STAGE_CHOOSE_MODE:
@@ -129,41 +103,25 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 				verifierBtn.setEnabled(false);
 				generateWorldBtn.setEnabled(true);
 				generateWorldBtn.setVisibility(View.VISIBLE);
-				sendXBtn.setVisibility(View.GONE);
+				generateSignBtn.setVisibility(View.GONE);
 				break;
-			case MainPresenter.STAGE_SEND_X:
+			case MainPresenter.STAGE_GENERATE_SIGN:
 				generateWorldBtn.setEnabled(false);
-				sendXBtn.setEnabled(true);
-				sendXBtn.setVisibility(View.VISIBLE);
-				insertCBtn.setVisibility(View.GONE);
-				break;
-			case MainPresenter.STAGE_RECEIVE_C:
-				sendXBtn.setEnabled(false);
-				insertCBtn.setEnabled(true);
-				insertCBtn.setVisibility(View.VISIBLE);
-				sendSBtn.setVisibility(View.GONE);
-				break;
-			case MainPresenter.STAGE_SEND_S:
-				sendSBtn.setVisibility(View.VISIBLE);
-				insertCBtn.setEnabled(false);
+				generateSignBtn.setEnabled(true);
+				generateSignBtn.setVisibility(View.VISIBLE);
 				break;
 			case MainPresenter.STAGE_SET_WORLD:
 				proverBtn.setEnabled(false);
 				readJsonWorldBtn.setVisibility(View.VISIBLE);
+				setSignBtn.setVisibility(View.GONE);
 				break;
-			case MainPresenter.STAGE_SET_X:
-				insertXBtn.setEnabled(true);
-				insertXBtn.setVisibility(View.VISIBLE);
-				sendCBtn.setVisibility(View.GONE);
-				break;
-			case MainPresenter.STAGE_SEND_C:
-				insertXBtn.setEnabled(false);
-				sendCBtn.setEnabled(true);
-				sendCBtn.setVisibility(View.VISIBLE);
-				verifyBtn.setVisibility(View.GONE);
+			case MainPresenter.STAGE_SET_SIGN:
+				readJsonWorldBtn.setEnabled(false);
+				setSignBtn.setVisibility(View.VISIBLE);
+				verifierBtn.setVisibility(View.GONE);
 				break;
 			case MainPresenter.STAGE_VERIFY:
-				sendCBtn.setEnabled(false);
+				setSignBtn.setEnabled(false);
 				verifyBtn.setVisibility(View.VISIBLE);
 
 		}

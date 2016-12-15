@@ -8,5 +8,5 @@ import pl.appsprojekt.systemsecurityii.view.IView;
 
 public interface Presenter<T extends IView> {
 
-	void attachView(T view);
+    void attachView(T view);
 }

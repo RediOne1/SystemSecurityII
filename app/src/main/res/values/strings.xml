@@ -1,6 +1,6 @@
 <resources>
 	<string name="app_name">System Security II</string>
-	<string name="prover">Prover</string>
+	<string name="prover">Signer</string>
 	<string name="verifier">Verifier</string>
 	<string name="generate_world">Generate world</string>
 	<string name="read_json_send_c">Read JSON &amp; send C</string>
@@ -15,6 +15,6 @@
 	<string name="verify">Verify</string>
 	<string name="send_s">Send S</string>
 	<string name="send_c">Send C</string>
-	<string name="generate_sign">Generate sign</string>
+	<string name="generate_sign">Generate signature</string>
 	<string name="set_sign">Set signature</string>
 </resources>

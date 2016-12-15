@@ -34,8 +34,6 @@ public class SignerGenerateWorldState implements State {
 			subscriber.onNext(worldSigner.getWorldParameters());
 			subscriber.onCompleted();
 		})
-				.subscribeOn(Schedulers.computation())
-				.observeOn(AndroidSchedulers.mainThread())
 				.map(response -> {
 					response.protocol = "Schnorr Signature";
 					response.sender = "S";
@@ -44,7 +42,6 @@ public class SignerGenerateWorldState implements State {
 					return response;
 				})
 				.map(gson::toJson)
-				.map(Utils::jsonToPrettyString)
 				.map(Message::new)
 				.subscribe(view::printOutputMessage,
 						Throwable::printStackTrace,

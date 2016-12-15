@@ -36,8 +36,6 @@ public class VerifierLoadSignatureState implements State {
 	public void processInput(String input) {
 		Gson gson = new Gson();
 		Observable.just(input)
-				.subscribeOn(Schedulers.computation())
-				.observeOn(AndroidSchedulers.mainThread())
 				.map(s -> gson.fromJson(s, Response.class))
 				.subscribe(worldVerifier::setSignerParams,
 						throwable -> {

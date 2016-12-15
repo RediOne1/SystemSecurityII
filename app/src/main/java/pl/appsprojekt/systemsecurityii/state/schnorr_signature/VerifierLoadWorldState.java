@@ -33,8 +33,6 @@ public class VerifierLoadWorldState implements State {
 	public void processInput(String input) {
 		Gson gson = new Gson();
 		Observable.just(input)
-				.subscribeOn(Schedulers.computation())
-				.observeOn(AndroidSchedulers.mainThread())
 				.map(s -> gson.fromJson(s, Response.class))
 				.subscribe(worldVerifier::setWorldParams,
 						throwable -> {

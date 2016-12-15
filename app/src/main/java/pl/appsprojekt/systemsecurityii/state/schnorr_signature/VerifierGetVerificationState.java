@@ -28,10 +28,7 @@ public class VerifierGetVerificationState implements State {
 	public void onPrepare(INewMainView view) {
 		Gson gson = new Gson();
 		Observable.just(worldVerifier.getVerification())
-				.subscribeOn(Schedulers.computation())
-				.observeOn(AndroidSchedulers.mainThread())
 				.map(gson::toJson)
-				.map(Utils::jsonToPrettyString)
 				.map(Message::new)
 				.subscribe(view::printOutputMessage);
 	}

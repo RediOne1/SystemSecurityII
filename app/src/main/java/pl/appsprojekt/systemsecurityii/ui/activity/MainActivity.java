@@ -17,12 +17,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.appsprojekt.systemsecurityii.R;
 import pl.appsprojekt.systemsecurityii.model.Message;
-import pl.appsprojekt.systemsecurityii.presenter.NewMainPresenter;
+import pl.appsprojekt.systemsecurityii.presenter.MainPresenter;
 import pl.appsprojekt.systemsecurityii.state.ChooseProtocolState;
 import pl.appsprojekt.systemsecurityii.ui.adapter.MessagesAdapter;
 import pl.appsprojekt.systemsecurityii.view.INewMainView;
 
-public class NewMainActivity extends AppCompatActivity implements INewMainView {
+public class MainActivity extends AppCompatActivity implements INewMainView {
 
 	@BindView(R.id.output_recyclerView)
 	RecyclerView outputRecyclerView;
@@ -30,12 +30,12 @@ public class NewMainActivity extends AppCompatActivity implements INewMainView {
 	@BindView(R.id.input_field)
 	EditText inputField;
 
-	private NewMainPresenter presenter;
+	private MainPresenter presenter;
 	private List<Message> outputMessages;
 	private MessagesAdapter adapter;
 
-	public NewMainActivity() {
-		presenter = new NewMainPresenter();
+	public MainActivity() {
+		presenter = new MainPresenter();
 	}
 
 	@Override

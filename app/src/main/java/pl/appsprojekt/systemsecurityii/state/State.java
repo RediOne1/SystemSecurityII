@@ -1,5 +1,6 @@
 package pl.appsprojekt.systemsecurityii.state;
 
+import pl.appsprojekt.systemsecurityii.interfaces.IOnCompletionListener;
 import pl.appsprojekt.systemsecurityii.view.INewMainView;
 
 /**
@@ -11,12 +12,7 @@ public interface State {
 
 	void onPrepare(INewMainView view);
 
-	void processInput(String input);
-
-	/**
-	 * @return true if input was processed successfully and next state can be executed.
-	 */
-	boolean canGoToNextState();
+	void processInput(String input, IOnCompletionListener listener);
 
 	State getNextState();
 }

@@ -1,5 +1,6 @@
 package pl.appsprojekt.systemsecurityii.state;
 
+import pl.appsprojekt.systemsecurityii.interfaces.IOnCompletionListener;
 import pl.appsprojekt.systemsecurityii.model.Message;
 import pl.appsprojekt.systemsecurityii.view.INewMainView;
 
@@ -28,13 +29,9 @@ public class ChooseModeState implements State {
 	}
 
 	@Override
-	public void processInput(String input) {
+	public void processInput(String input, IOnCompletionListener listener) {
 		isVerifier = input.equalsIgnoreCase("verifier");
-	}
-
-	@Override
-	public boolean canGoToNextState() {
-		return true;
+		listener.onComplete();
 	}
 
 	@Override

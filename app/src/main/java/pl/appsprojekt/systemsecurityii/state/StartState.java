@@ -1,5 +1,6 @@
 package pl.appsprojekt.systemsecurityii.state;
 
+import pl.appsprojekt.systemsecurityii.interfaces.IOnCompletionListener;
 import pl.appsprojekt.systemsecurityii.view.INewMainView;
 
 /**
@@ -13,12 +14,8 @@ public class StartState implements State {
 	}
 
 	@Override
-	public void processInput(String input) {
-	}
-
-	@Override
-	public boolean canGoToNextState() {
-		return true;
+	public void processInput(String input, IOnCompletionListener listener) {
+		listener.onComplete();
 	}
 
 	@Override

@@ -10,14 +10,14 @@ import pl.appsprojekt.systemsecurityii.view.INewMainView;
  * date:    13.12.2016
  */
 
-public class NewMainPresenter implements Presenter<INewMainView> {
+public class MainPresenter implements Presenter<INewMainView> {
 
 
 	private State currentState;
 
 	private INewMainView view;
 
-	public NewMainPresenter() {
+	public MainPresenter() {
 		init();
 	}
 
@@ -32,10 +32,9 @@ public class NewMainPresenter implements Presenter<INewMainView> {
 	}
 
 	private void nextState() {
-		if (currentState.canGoToNextState()) {
-			currentState = currentState.getNextState();
+		currentState = currentState.getNextState();
+		if (currentState != null)
 			currentState.onPrepare(view);
-		}
 	}
 
 	public void onUserInput(String userInput) {
@@ -45,8 +44,7 @@ public class NewMainPresenter implements Presenter<INewMainView> {
 			init();
 		}
 		if (currentState != null) {
-			currentState.processInput(userInput);
-			nextState();
+			currentState.processInput(userInput, this::nextState);
 		}
 	}
 }

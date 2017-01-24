@@ -2,18 +2,13 @@ package pl.appsprojekt.systemsecurityii.state.schnorr_signature;
 
 import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import pl.appsprojekt.systemsecurityii.Utils;
+import pl.appsprojekt.systemsecurityii.interfaces.IOnCompletionListener;
 import pl.appsprojekt.systemsecurityii.model.Message;
 import pl.appsprojekt.systemsecurityii.model.Response;
 import pl.appsprojekt.systemsecurityii.state.State;
 import pl.appsprojekt.systemsecurityii.view.INewMainView;
 import pl.appsprojekt.systemsecurityii.world.SchnorrSignatureWorldSigner;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * author:  redione1
@@ -49,13 +44,8 @@ public class SignerGenerateWorldState implements State {
 	}
 
 	@Override
-	public void processInput(String input) {
-
-	}
-
-	@Override
-	public boolean canGoToNextState() {
-		return true;
+	public void processInput(String input, IOnCompletionListener listener) {
+		listener.onComplete();
 	}
 
 	@Override

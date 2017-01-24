@@ -1,9 +1,5 @@
 package pl.appsprojekt.systemsecurityii.model;
 
-import android.support.annotation.StringDef;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,5 +51,9 @@ public class Response {
 
 	public void addParam(String key, BigInteger value) {
 		params.put(key, value.toString(16));
+	}
+
+	public void addParam(String key, String value) {
+		params.put(key, value);
 	}
 }

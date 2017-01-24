@@ -2,6 +2,7 @@ package pl.appsprojekt.systemsecurityii.state.schnorr;
 
 import com.google.gson.Gson;
 
+import pl.appsprojekt.systemsecurityii.interfaces.IOnCompletionListener;
 import pl.appsprojekt.systemsecurityii.model.Message;
 import pl.appsprojekt.systemsecurityii.model.Response;
 import pl.appsprojekt.systemsecurityii.state.State;
@@ -29,7 +30,7 @@ public class VerifierGetVerificationState implements State {
 	}
 
 	@Override
-	public void processInput(String input) {
+	public void processInput(String input, IOnCompletionListener listener) {
 		Gson gson = new Gson();
 		Observable.just(input)
 				.map(s -> gson.fromJson(s, Response.class))
@@ -38,13 +39,8 @@ public class VerifierGetVerificationState implements State {
 				.map(Message::new)
 				.subscribe(view::printOutputMessage,
 						Throwable::printStackTrace,
-						() -> view.printOutputMessage(new Message("The End")));
+						listener::onComplete);
 
-	}
-
-	@Override
-	public boolean canGoToNextState() {
-		return false;
 	}
 
 	@Override

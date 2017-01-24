@@ -1,4 +1,4 @@
-package pl.appsprojekt.systemsecurityii.state.schnorr;
+package pl.appsprojekt.systemsecurityii.state.schnorr_ring_signature;
 
 import com.google.gson.Gson;
 
@@ -7,37 +7,39 @@ import pl.appsprojekt.systemsecurityii.model.Message;
 import pl.appsprojekt.systemsecurityii.model.Response;
 import pl.appsprojekt.systemsecurityii.state.State;
 import pl.appsprojekt.systemsecurityii.view.INewMainView;
-import pl.appsprojekt.systemsecurityii.world.SchnorrWorldVerifier;
+import pl.appsprojekt.systemsecurityii.world.SchnorrRingSignatureWorldVerifier;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * author:  Adrian Kuta
- * date:    14.12.2016
+ * date:    24.01.2017
  */
-public class VerifierSetXState implements State {
-	private INewMainView view;
-	private SchnorrWorldVerifier worldVerifier;
+public class VerifierLoadWorld implements State {
 
-	public VerifierSetXState(SchnorrWorldVerifier worldVerifier) {
-		this.worldVerifier = worldVerifier;
+	private SchnorrRingSignatureWorldVerifier verifier;
+
+	public VerifierLoadWorld(SchnorrRingSignatureWorldVerifier verifier) {
+		this.verifier = verifier;
 	}
 
 	@Override
 	public void onPrepare(INewMainView view) {
-		this.view = view;
-		view.printOutputMessage(new Message("Input X json and press SEND"));
+		view.printOutputMessage(new Message("Enter World JSON & tap SEND"));
 	}
 
 	@Override
 	public void processInput(String input, IOnCompletionListener listener) {
 		Gson gson = new Gson();
 		Observable.just(input)
+				.subscribeOn(Schedulers.computation())
+				.observeOn(AndroidSchedulers.mainThread())
 				.map(s -> gson.fromJson(s, Response.class))
-				.map(worldVerifier::setX)
-				.map(gson::toJson)
-				.map(Message::new)
+				.doOnNext(response -> verifier.setWorldParams(response))
 				.subscribe(
-						view::printOutputMessage,
+						response -> {
+						},
 						Throwable::printStackTrace,
 						listener::onComplete
 				);
@@ -45,6 +47,6 @@ public class VerifierSetXState implements State {
 
 	@Override
 	public State getNextState() {
-		return new VerifierGetCState(worldVerifier);
+		return new VerifierLoadPublicKeys(verifier);
 	}
 }

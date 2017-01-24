@@ -2,6 +2,7 @@ package pl.appsprojekt.systemsecurityii.state.schnorr;
 
 import com.google.gson.Gson;
 
+import pl.appsprojekt.systemsecurityii.interfaces.IOnCompletionListener;
 import pl.appsprojekt.systemsecurityii.model.Message;
 import pl.appsprojekt.systemsecurityii.model.Response;
 import pl.appsprojekt.systemsecurityii.state.State;
@@ -32,7 +33,7 @@ public class VerifierRecreateWorldState implements State {
 	}
 
 	@Override
-	public void processInput(String input) {
+	public void processInput(String input, IOnCompletionListener listener) {
 		Gson gson = new Gson();
 		Observable.just(input)
 				.subscribeOn(Schedulers.computation())
@@ -41,17 +42,14 @@ public class VerifierRecreateWorldState implements State {
 				.map(worldVerifier::createFromJson)
 				.map(gson::toJson)
 				.map(Message::new)
-				.subscribe(message -> {},
+				.subscribe(message -> {
+						},
 						throwable -> {
 							view.printOutputMessage(new Message("Something went wrong"));
 							view.printOutputMessage(new Message(throwable.getMessage()));
 							view.printOutputMessage(new Message("Input world params and press SEND"));
-						});
-	}
-
-	@Override
-	public boolean canGoToNextState() {
-		return true;
+						},
+						listener::onComplete);
 	}
 
 	@Override

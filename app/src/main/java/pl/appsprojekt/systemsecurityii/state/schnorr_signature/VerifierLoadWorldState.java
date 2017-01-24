@@ -2,14 +2,13 @@ package pl.appsprojekt.systemsecurityii.state.schnorr_signature;
 
 import com.google.gson.Gson;
 
+import pl.appsprojekt.systemsecurityii.interfaces.IOnCompletionListener;
 import pl.appsprojekt.systemsecurityii.model.Message;
 import pl.appsprojekt.systemsecurityii.model.Response;
 import pl.appsprojekt.systemsecurityii.state.State;
 import pl.appsprojekt.systemsecurityii.view.INewMainView;
 import pl.appsprojekt.systemsecurityii.world.SchnorrSignatureWorldVerifier;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * author:  redione1
@@ -30,7 +29,7 @@ public class VerifierLoadWorldState implements State {
 	}
 
 	@Override
-	public void processInput(String input) {
+	public void processInput(String input, IOnCompletionListener listener) {
 		Gson gson = new Gson();
 		Observable.just(input)
 				.map(s -> gson.fromJson(s, Response.class))
@@ -41,12 +40,7 @@ public class VerifierLoadWorldState implements State {
 							view.printOutputMessage(new Message("Input world params and press SEND"));
 							success = false;
 						},
-						() -> success = true);
-	}
-
-	@Override
-	public boolean canGoToNextState() {
-		return success;
+						listener::onComplete);
 	}
 
 	@Override

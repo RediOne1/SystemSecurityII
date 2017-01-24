@@ -2,11 +2,10 @@ package pl.appsprojekt.systemsecurityii.state.schnorr;
 
 import com.google.gson.Gson;
 
+import pl.appsprojekt.systemsecurityii.interfaces.IOnCompletionListener;
 import pl.appsprojekt.systemsecurityii.model.Message;
-import pl.appsprojekt.systemsecurityii.model.Response;
 import pl.appsprojekt.systemsecurityii.state.State;
 import pl.appsprojekt.systemsecurityii.view.INewMainView;
-import pl.appsprojekt.systemsecurityii.world.SchnorrWorld;
 import pl.appsprojekt.systemsecurityii.world.SchnorrWorldProver;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -41,12 +40,8 @@ public class ProverGenerateWorldState implements State {
 	}
 
 	@Override
-	public void processInput(String input) {
-	}
-
-	@Override
-	public boolean canGoToNextState() {
-		return true;
+	public void processInput(String input, IOnCompletionListener listener) {
+		listener.onComplete();
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package pl.appsprojekt.systemsecurityii.world;
 
-import com.google.gson.Gson;
-
 import org.spongycastle.math.ec.ECCurve;
 import org.spongycastle.math.ec.ECPoint;
 

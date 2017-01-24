@@ -2,14 +2,13 @@ package pl.appsprojekt.systemsecurityii.state.schnorr;
 
 import com.google.gson.Gson;
 
+import pl.appsprojekt.systemsecurityii.interfaces.IOnCompletionListener;
 import pl.appsprojekt.systemsecurityii.model.Message;
 import pl.appsprojekt.systemsecurityii.model.Response;
 import pl.appsprojekt.systemsecurityii.state.State;
 import pl.appsprojekt.systemsecurityii.view.INewMainView;
 import pl.appsprojekt.systemsecurityii.world.SchnorrWorldProver;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * author:  Adrian Kuta
@@ -18,7 +17,6 @@ import rx.schedulers.Schedulers;
 public class ProverSetCState implements State {
 	private INewMainView view;
 	private SchnorrWorldProver worldProver;
-	private boolean canShowNext;
 
 	public ProverSetCState(SchnorrWorldProver worldProver) {
 		this.worldProver = worldProver;
@@ -31,7 +29,7 @@ public class ProverSetCState implements State {
 	}
 
 	@Override
-	public void processInput(String input) {
+	public void processInput(String input, IOnCompletionListener listener) {
 		Gson gson = new Gson();
 		Observable.just(input)
 				.map(s -> gson.fromJson(s, Response.class))
@@ -44,13 +42,8 @@ public class ProverSetCState implements State {
 							throwable.printStackTrace();
 							view.printOutputMessage(new Message(throwable.getMessage()));
 						},
-						() -> canShowNext = true
+						listener::onComplete
 				);
-	}
-
-	@Override
-	public boolean canGoToNextState() {
-		return canShowNext;
 	}
 
 	@Override

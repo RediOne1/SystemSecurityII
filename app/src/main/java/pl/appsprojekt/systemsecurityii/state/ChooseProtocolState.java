@@ -1,7 +1,10 @@
 package pl.appsprojekt.systemsecurityii.state;
 
+import pl.appsprojekt.systemsecurityii.interfaces.IOnCompletionListener;
 import pl.appsprojekt.systemsecurityii.state.schnorr.ProverGenerateWorldState;
 import pl.appsprojekt.systemsecurityii.state.schnorr.VerifierRecreateWorldState;
+import pl.appsprojekt.systemsecurityii.state.schnorr_ring_signature.SignerSchnorrRing;
+import pl.appsprojekt.systemsecurityii.state.schnorr_ring_signature.VerifierSetArraySize;
 import pl.appsprojekt.systemsecurityii.state.schnorr_signature.SignerGenerateWorldState;
 import pl.appsprojekt.systemsecurityii.state.schnorr_signature.VerifierLoadWorldState;
 import pl.appsprojekt.systemsecurityii.view.INewMainView;
@@ -21,15 +24,11 @@ public class ChooseProtocolState implements State {
 	}
 
 	@Override
-	public void processInput(String input) {
+	public void processInput(String input, IOnCompletionListener listener) {
 		for (PROTOCOL protocol : PROTOCOL.values())
 			if (protocol.toString().equalsIgnoreCase(input))
 				selectedProtocol = protocol;
-	}
-
-	@Override
-	public boolean canGoToNextState() {
-		return selectedProtocol != null;
+		listener.onComplete();
 	}
 
 	@Override
@@ -39,7 +38,8 @@ public class ChooseProtocolState implements State {
 
 	public enum PROTOCOL {
 		SCHNORR(new ProverGenerateWorldState(), new VerifierRecreateWorldState()),
-		SCHNORR_SIGNATURE(new SignerGenerateWorldState(), new VerifierLoadWorldState());
+		SCHNORR_SIGNATURE(new SignerGenerateWorldState(), new VerifierLoadWorldState()),
+		SCHNORR_RING_SIGNATURE(new SignerSchnorrRing(), new VerifierSetArraySize());
 
 		State firstProverState, firstVerifierState;
 

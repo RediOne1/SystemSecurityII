@@ -17,7 +17,7 @@ import pl.appsprojekt.systemsecurityii.model.Response;
 
 public class SchnorrSignatureWorldVerifier extends SchnorrSignatureWorld {
 
-	public Response setWorldParams(Response response) {
+	public void setWorldParams(Response response) {
 
 		A = response.getParam("A");
 		B = response.getParam("B");
@@ -30,12 +30,9 @@ public class SchnorrSignatureWorldVerifier extends SchnorrSignatureWorld {
 		G = ec.createPoint(Gx, Gy);
 		ecSpecification = new ECParameterSpec(ec, G, N);
 
-		Response res = new Response();
-		res.success = true;
-		return res;
 	}
 
-	public Response setSignerParams(Response response) {
+	public void setSignerParams(Response response) {
 		Yx = response.getParam("Yx");
 		Yy = response.getParam("Yy");
 		Y = ec.createPoint(Yx, Yy);
@@ -47,9 +44,6 @@ public class SchnorrSignatureWorldVerifier extends SchnorrSignatureWorld {
 		s = response.getParam("s");
 		m = response.params.get("m");
 
-		Response res = new Response();
-		res.success = true;
-		return res;
 	}
 
 	public Response getVerification() {

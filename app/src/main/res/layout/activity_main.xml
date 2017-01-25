@@ -43,6 +43,22 @@
 		tools:visibility="visible"/>
 
 	<Button
+		android:id="@+id/get_public_keys"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="get public keys"
+		android:visibility="gone"
+		tools:visibility="visible"/>
+
+	<Button
+		android:id="@+id/get_signature"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="get signature"
+		android:visibility="gone"
+		tools:visibility="visible"/>
+
+	<Button
 		android:id="@+id/set_world"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -51,10 +67,10 @@
 		tools:visibility="visible"/>
 
 	<Button
-		android:id="@+id/generate_sign"
+		android:id="@+id/set_public_keys"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/generate_sign"
+		android:text="Set public keys"
 		android:visibility="gone"
 		tools:visibility="visible"/>
 
@@ -62,7 +78,7 @@
 		android:id="@+id/set_sign"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/set_sign"
+		android:text="Set signer params"
 		android:visibility="gone"
 		tools:visibility="visible"/>
 

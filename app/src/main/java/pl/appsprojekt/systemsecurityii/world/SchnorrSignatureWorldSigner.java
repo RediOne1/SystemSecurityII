@@ -40,12 +40,12 @@ public class SchnorrSignatureWorldSigner extends SchnorrSignatureWorld {
 	public Response getWorldParameters() {
 		Response response = new Response();
 
-		response.setParam("A", A);
-		response.setParam("B", B);
-		response.setParam("Q", Q);
-		response.setParam("Gx", Gx);
-		response.setParam("Gy", Gy);
-		response.setParam("N", N);
+		response.addParam("A", A);
+		response.addParam("B", B);
+		response.addParam("Q", Q);
+		response.addParam("Gx", Gx);
+		response.addParam("Gy", Gy);
+		response.addParam("N", N);
 
 		return response;
 	}
@@ -84,13 +84,13 @@ public class SchnorrSignatureWorldSigner extends SchnorrSignatureWorld {
 
 		Response response = new Response();
 		//public key
-		response.setParam("Yx", Yx);
-		response.setParam("Yy", Yy);
+		response.addParam("Yx", Yx);
+		response.addParam("Yy", Yy);
 		//R
-		response.setParam("Rx", Rx);
-		response.setParam("Ry", Ry);
+		response.addParam("Rx", Rx);
+		response.addParam("Ry", Ry);
 		//S
-		response.setParam("s", s);
+		response.addParam("s", s);
 		//message m
 		response.params.put("m", m);
 

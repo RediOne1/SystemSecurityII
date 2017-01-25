@@ -49,7 +49,11 @@ public class Response {
 		return new BigInteger(value, 16);
 	}
 
-	public void setParam(String key, BigInteger value) {
+	public void addParam(String key, BigInteger value) {
 		params.put(key, value.toString(16));
+	}
+
+	public void addParam(String key, String value) {
+		params.put(key, value);
 	}
 }

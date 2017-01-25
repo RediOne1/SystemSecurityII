@@ -24,10 +24,14 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 	Button verifierBtn;
 	@BindView(R.id.generate_world_btn)
 	Button generateWorldBtn;
+	@BindView(R.id.get_public_keys)
+	Button getPublicKeys;
+	@BindView(R.id.get_signature)
+	Button getSignature;
 	@BindView(R.id.set_world)
 	Button readJsonWorldBtn;
-	@BindView(R.id.generate_sign)
-	Button generateSignBtn;
+	@BindView(R.id.set_public_keys)
+	Button setPublicKeys;
 	@BindView(R.id.set_sign)
 	Button setSignBtn;
 	@BindView(R.id.verify)
@@ -65,6 +69,16 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 		presenter.generateWorld();
 	}
 
+	@OnClick(R.id.get_public_keys)
+	public void onGetPublicKeys(Button button) {
+		presenter.getPublicKeys();
+	}
+
+	@OnClick(R.id.get_signature)
+	public void onGetSignature(Button button) {
+		presenter.getSignature();
+	}
+
 	@OnClick(R.id.set_world)
 	public void onReadWorldJsonClick() {
 		JsonDialog dialog = JsonDialog.newInstance("Insert World JSON");
@@ -72,9 +86,11 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 		dialog.show(getSupportFragmentManager(), "InsertWorldJSON");
 	}
 
-	@OnClick(R.id.generate_sign)
-	public void onGenerateSignClick() {
-		presenter.generateSign();
+	@OnClick(R.id.set_public_keys)
+	public void onSetPublicKeys() {
+		JsonDialog dialog = JsonDialog.newInstance("Insert Public Keys");
+		dialog.setJsonInsertedListener(presenter::setPublicKeys);
+		dialog.show(getSupportFragmentManager(), "InsertWorldJSON");
 	}
 
 	@OnClick(R.id.set_sign)
@@ -98,17 +114,21 @@ public class MainActivity extends AppCompatActivity implements IMainView {
 				verifierBtn.setEnabled(true);
 				generateWorldBtn.setVisibility(View.GONE);
 				readJsonWorldBtn.setVisibility(View.GONE);
+				getPublicKeys.setVisibility(View.GONE);
+				getSignature.setVisibility(View.GONE);
+				setPublicKeys.setVisibility(View.GONE);
 				break;
 			case MainPresenter.STAGE_GENERATE_WORLD:
 				verifierBtn.setEnabled(false);
 				generateWorldBtn.setEnabled(true);
 				generateWorldBtn.setVisibility(View.VISIBLE);
-				generateSignBtn.setVisibility(View.GONE);
+				getPublicKeys.setVisibility(View.VISIBLE);
+				getSignature.setVisibility(View.VISIBLE);
 				break;
-			case MainPresenter.STAGE_GENERATE_SIGN:
+			case MainPresenter.STAGE_SET_PUBLIC_KEYS:
 				generateWorldBtn.setEnabled(false);
-				generateSignBtn.setEnabled(true);
-				generateSignBtn.setVisibility(View.VISIBLE);
+				setPublicKeys.setEnabled(true);
+				setPublicKeys.setVisibility(View.VISIBLE);
 				break;
 			case MainPresenter.STAGE_SET_WORLD:
 				proverBtn.setEnabled(false);

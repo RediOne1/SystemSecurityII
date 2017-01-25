@@ -9,9 +9,12 @@ import java.lang.annotation.RetentionPolicy;
 
 import pl.appsprojekt.systemsecurityii.model.Response;
 import pl.appsprojekt.systemsecurityii.view.IMainView;
+import pl.appsprojekt.systemsecurityii.world.SchnorrRingSignatureWorldSigner;
+import pl.appsprojekt.systemsecurityii.world.SchnorrRingSignatureWorldVerifier;
 import pl.appsprojekt.systemsecurityii.world.SchnorrSignatureWorldSigner;
 import pl.appsprojekt.systemsecurityii.world.SchnorrSignatureWorldVerifier;
 import rx.Observable;
+import rx.Single;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -21,6 +24,8 @@ import rx.schedulers.Schedulers;
 
 public class MainPresenter implements Presenter<IMainView> {
 
+	private static final int LENGTH = 5;
+
 	public static final int MODE_PROVER = 1;
 	public static final int MODE_VERIFIER = 2;
 
@@ -28,7 +33,7 @@ public class MainPresenter implements Presenter<IMainView> {
 	public static final int STAGE_CHOOSE_MODE = 1;
 	public static final int STAGE_GENERATE_WORLD = 2;
 	public static final int STAGE_SET_WORLD = 3;
-	public static final int STAGE_GENERATE_SIGN = 4;
+	public static final int STAGE_SET_PUBLIC_KEYS = 4;
 	public static final int STAGE_SET_SIGN = 5;
 	public static final int STAGE_VERIFY = 9;
 	private Gson gson = new Gson();
@@ -36,12 +41,12 @@ public class MainPresenter implements Presenter<IMainView> {
 	private int currentStage = STAGE_CHOOSE_MODE;
 	private IMainView view;
 
-	private SchnorrSignatureWorldSigner worldSigner;
-	private SchnorrSignatureWorldVerifier worldVerifier;
+	private SchnorrRingSignatureWorldSigner worldSigner;
+	private SchnorrRingSignatureWorldVerifier worldVerifier;
 
 	public MainPresenter() {
-		worldSigner = new SchnorrSignatureWorldSigner();
-		worldVerifier = new SchnorrSignatureWorldVerifier();
+		worldSigner = new SchnorrRingSignatureWorldSigner(LENGTH);
+		worldVerifier = new SchnorrRingSignatureWorldVerifier(LENGTH);
 	}
 
 	@Override
@@ -71,11 +76,11 @@ public class MainPresenter implements Presenter<IMainView> {
 			case STAGE_SET_WORLD:
 				previousStage = STAGE_CHOOSE_MODE;
 				break;
-			case STAGE_GENERATE_SIGN:
-				previousStage = STAGE_GENERATE_WORLD;
+			case STAGE_SET_PUBLIC_KEYS:
+				previousStage = STAGE_SET_WORLD;
 				break;
 			case STAGE_SET_SIGN:
-				previousStage = STAGE_SET_WORLD;
+				previousStage = STAGE_SET_PUBLIC_KEYS;
 				break;
 			case STAGE_VERIFY:
 				previousStage = STAGE_SET_SIGN;
@@ -93,10 +98,10 @@ public class MainPresenter implements Presenter<IMainView> {
 			case STAGE_CHOOSE_MODE:
 				nextStage = selectedMode == MODE_PROVER ? STAGE_GENERATE_WORLD : STAGE_SET_WORLD;
 				break;
-			case STAGE_GENERATE_WORLD:
-				nextStage = STAGE_GENERATE_SIGN;
-				break;
 			case STAGE_SET_WORLD:
+				nextStage = STAGE_SET_PUBLIC_KEYS;
+				break;
+			case STAGE_SET_PUBLIC_KEYS:
 				nextStage = STAGE_SET_SIGN;
 				break;
 			case STAGE_SET_SIGN:
@@ -113,7 +118,11 @@ public class MainPresenter implements Presenter<IMainView> {
 	}
 
 	public void generateWorld() {
-		Observable.just(worldSigner.getWorldParameters())
+		Single.create((Single.OnSubscribe<Response>) subscriber -> {
+			worldSigner.generateWorld();
+			Response worldParameters = worldSigner.getWorldParameters();
+			subscriber.onSuccess(worldParameters);
+		})
 				.map(gson::toJson)
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(Schedulers.computation())
@@ -126,11 +135,33 @@ public class MainPresenter implements Presenter<IMainView> {
 				);
 	}
 
-	public void generateSign() {
-		Observable.just(worldSigner.getSign())
-				.subscribeOn(Schedulers.computation())
-				.observeOn(AndroidSchedulers.mainThread())
+	public void getPublicKeys() {
+		Single.create((Single.OnSubscribe<Response>) subscriber -> {
+			worldSigner.generateKeys();
+			Response worldParameters = worldSigner.getPublicKeys();
+			subscriber.onSuccess(worldParameters);
+		})
 				.map(gson::toJson)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeOn(Schedulers.computation())
+				.subscribe(
+						s -> {
+							showNextStage();
+							view.showJson(s);
+						},
+						Throwable::printStackTrace
+				);
+	}
+
+	public void getSignature() {
+		Single.create((Single.OnSubscribe<Response>) subscriber -> {
+			worldSigner.generateRingSign(3);
+			Response worldParameters = worldSigner.getSign();
+			subscriber.onSuccess(worldParameters);
+		})
+				.map(gson::toJson)
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeOn(Schedulers.computation())
 				.subscribe(
 						s -> {
 							showNextStage();
@@ -146,6 +177,22 @@ public class MainPresenter implements Presenter<IMainView> {
 				.observeOn(AndroidSchedulers.mainThread())
 				.map(s -> gson.fromJson(s, Response.class))
 				.map(worldVerifier::setWorldParams)
+				.map(gson::toJson)
+				.subscribe(
+						s -> {
+							view.showJson(s);
+							showNextStage();
+						},
+						Throwable::printStackTrace
+				);
+	}
+
+	public void setPublicKeys(String jsonPublicKeys) {
+		Observable.just(jsonPublicKeys)
+				.subscribeOn(Schedulers.computation())
+				.observeOn(AndroidSchedulers.mainThread())
+				.map(s -> gson.fromJson(s, Response.class))
+				.map(worldVerifier::setPublicKeys)
 				.map(gson::toJson)
 				.subscribe(
 						s -> {
@@ -173,7 +220,7 @@ public class MainPresenter implements Presenter<IMainView> {
 	}
 
 	public void verify() {
-		Observable.just(worldVerifier.getVerification())
+		Observable.just(worldVerifier.verify())
 				.subscribeOn(Schedulers.computation())
 				.observeOn(AndroidSchedulers.mainThread())
 				.map(gson::toJson)

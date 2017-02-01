@@ -7,6 +7,8 @@ import pl.appsprojekt.systemsecurityii.state.schnorr_ring_signature.SignerSchnor
 import pl.appsprojekt.systemsecurityii.state.schnorr_ring_signature.VerifierSetArraySize;
 import pl.appsprojekt.systemsecurityii.state.schnorr_signature.SignerGenerateWorldState;
 import pl.appsprojekt.systemsecurityii.state.schnorr_signature.VerifierLoadWorldState;
+import pl.appsprojekt.systemsecurityii.state.sigma.InitiatorCreateWorldState;
+import pl.appsprojekt.systemsecurityii.state.sigma.ResponderLoadWorld;
 import pl.appsprojekt.systemsecurityii.view.INewMainView;
 
 /**
@@ -39,7 +41,8 @@ public class ChooseProtocolState implements State {
 	public enum PROTOCOL {
 		SCHNORR(new ProverGenerateWorldState(), new VerifierRecreateWorldState()),
 		SCHNORR_SIGNATURE(new SignerGenerateWorldState(), new VerifierLoadWorldState()),
-		SCHNORR_RING_SIGNATURE(new SignerSchnorrRing(), new VerifierSetArraySize());
+		SCHNORR_RING_SIGNATURE(new SignerSchnorrRing(), new VerifierSetArraySize()),
+		SIGMA(new InitiatorCreateWorldState(), new ResponderLoadWorld());
 
 		State firstProverState, firstVerifierState;
 

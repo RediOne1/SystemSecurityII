@@ -23,6 +23,8 @@ public class ChooseModeState implements State {
 		Message message;
 		if (selectedProtocol == ChooseProtocolState.PROTOCOL.SCHNORR)
 			message = new Message("Choose mode: type PROVER or VERIFIER");
+		else if (selectedProtocol == ChooseProtocolState.PROTOCOL.SIGMA)
+			message = new Message("Choose mode: type INITIATOR or RESPONDER");
 		else
 			message = new Message("Choose mode: type SIGNER or VERIFIER");
 		view.printOutputMessage(message);
@@ -30,7 +32,7 @@ public class ChooseModeState implements State {
 
 	@Override
 	public void processInput(String input, IOnCompletionListener listener) {
-		isVerifier = input.equalsIgnoreCase("verifier");
+		isVerifier = input.equalsIgnoreCase("verifier") || input.equalsIgnoreCase("responder");
 		listener.onComplete();
 	}
 

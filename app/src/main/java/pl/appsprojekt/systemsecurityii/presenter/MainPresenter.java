@@ -1,6 +1,8 @@
 package pl.appsprojekt.systemsecurityii.presenter;
 
 import pl.appsprojekt.systemsecurityii.model.Message;
+import pl.appsprojekt.systemsecurityii.state.ChooseModeState;
+import pl.appsprojekt.systemsecurityii.state.ChooseProtocolState;
 import pl.appsprojekt.systemsecurityii.state.StartState;
 import pl.appsprojekt.systemsecurityii.state.State;
 import pl.appsprojekt.systemsecurityii.view.INewMainView;

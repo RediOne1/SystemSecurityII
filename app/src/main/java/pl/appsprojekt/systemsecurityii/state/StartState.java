@@ -20,6 +20,6 @@ public class StartState implements State {
 
 	@Override
 	public State getNextState() {
-		return new ChooseProtocolState();
+		return new ChooseModeState(ChooseProtocolState.PROTOCOL.SIGMA);
 	}
 }

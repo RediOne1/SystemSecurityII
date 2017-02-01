@@ -1,6 +1,5 @@
 package pl.appsprojekt.systemsecurityii.ui.adapter;
 
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,12 +39,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 		Message message = messagesList.get(position);
 		holder.textView.setText(message.getContent());
 
-		int color = ContextCompat.getColor(holder.itemView.getContext(),
-				message.isFromMe() ?
-						android.R.color.darker_gray :
-						android.R.color.white);
-
-		holder.cardView.setCardBackgroundColor(color);
+		if (!message.isFromMe())
+			holder.cardView.setBackgroundResource(0);
 	}
 
 	@Override

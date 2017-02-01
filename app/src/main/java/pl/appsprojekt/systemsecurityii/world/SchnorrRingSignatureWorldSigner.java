@@ -28,7 +28,7 @@ public class SchnorrRingSignatureWorldSigner extends SchnorrRingSignatureWorld {
 		this.Rx = new BigInteger[length];
 		this.Ry = new BigInteger[length];
 		this.h = new BigInteger[length];
-		this.m = "Blabla";
+		this.m = "Lorem ipsum";
 	}
 
 	public void generateWorld() {

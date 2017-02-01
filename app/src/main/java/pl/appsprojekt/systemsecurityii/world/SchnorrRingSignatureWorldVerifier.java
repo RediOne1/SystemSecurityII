@@ -25,7 +25,6 @@ public class SchnorrRingSignatureWorldVerifier extends SchnorrRingSignatureWorld
 		this.Rx = new BigInteger[length];
 		this.Ry = new BigInteger[length];
 		this.h = new BigInteger[length];
-		this.m = "Blabla";
 	}
 
 	public void setWorldParams(Response response) {

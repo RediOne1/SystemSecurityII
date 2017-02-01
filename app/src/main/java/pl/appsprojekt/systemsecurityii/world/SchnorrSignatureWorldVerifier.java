@@ -49,7 +49,7 @@ public class SchnorrSignatureWorldVerifier extends SchnorrSignatureWorld {
 	public Response getVerification() {
 		//Generate Hash
 		byte hHex[] = {0x00};
-		;
+
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-1");
 			byte[] mHex = m.getBytes();
